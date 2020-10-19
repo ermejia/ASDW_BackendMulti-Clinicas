@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-package com.clinica.clinicamedica.entity;
-=======
 package gt.com.clinica.clinicamedica.entity;
->>>>>>> feature/AF-9-15_CompleteEntity
 
 import java.util.*;
 
@@ -37,8 +33,6 @@ public class RoomEntity {
      */
     private String state;
 
-<<<<<<< HEAD
-=======
     public int getIdRoom() {
         return idRoom;
     }
@@ -70,5 +64,4 @@ public class RoomEntity {
     public void setState(String state) {
         this.state = state;
     }
->>>>>>> feature/AF-9-15_CompleteEntity
 }

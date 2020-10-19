@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-package com.clinica.clinicamedica.entity;
-=======
 package gt.com.clinica.clinicamedica.entity;
->>>>>>> feature/AF-9-15_CompleteEntity
 
 import java.util.*;
 
@@ -20,11 +16,7 @@ public class AppointmentEntity {
     /**
      * 
      */
-<<<<<<< HEAD
-    private void idAppointment;
-=======
     private int idAppointment;
->>>>>>> feature/AF-9-15_CompleteEntity
 
     /**
      * 
@@ -46,8 +38,6 @@ public class AppointmentEntity {
      */
     private String reason;
 
-<<<<<<< HEAD
-=======
     public int getIdAppointment() {
         return idAppointment;
     }
@@ -87,5 +77,4 @@ public class AppointmentEntity {
     public void setReason(String reason) {
         this.reason = reason;
     }
->>>>>>> feature/AF-9-15_CompleteEntity
 }

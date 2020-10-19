@@ -1,56 +1,3 @@
-<<<<<<< HEAD
-package com.clinica.clinicamedica.entity;
-
-import java.util.*;
-
-/**
- * 
- */
-public class MedicineEntity {
-
-    /**
-     * Default constructor
-     */
-    public MedicineEntity() {
-    }
-
-    /**
-     * 
-     */
-    private int idMedicine;
-
-    /**
-     * 
-     */
-    private String name;
-
-    /**
-     * 
-     */
-    private String lab;
-
-    /**
-     * 
-     */
-    private String adminway;
-
-    /**
-     * 
-     */
-    private String description;
-
-    /**
-     * 
-     */
-    private Date expirationdate;
-
-    /**
-     * 
-     */
-    private int lots;
-
-}
-=======
 package gt.com.clinica.clinicamedica.entity;
 
 import java.util.Date;
@@ -120,4 +67,3 @@ public class MedicineEntity {
         this.lots = lots;
     }
 }
->>>>>>> feature/AF-9-15_CompleteEntity

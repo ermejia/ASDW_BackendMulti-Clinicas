@@ -1,31 +1,3 @@
-<<<<<<< HEAD
-package com.clinica.clinicamedica.entity;
-
-import java.util.*;
-
-/**
- * 
- */
-public class EmployeeEntity extends PersonEntity {
-
-    /**
-     * Default constructor
-     */
-    public EmployeeEntity() {
-    }
-
-    /**
-     * 
-     */
-    private int idEmployee;
-
-    /**
-     * 
-     */
-    private int idJob;
-
-}
-=======
 package gt.com.clinica.clinicamedica.entity;
 
 public class EmployeeEntity extends PersonEntity{
@@ -48,4 +20,3 @@ public class EmployeeEntity extends PersonEntity{
         this.idJob = idJob;
     }
 }
->>>>>>> feature/AF-9-15_CompleteEntity

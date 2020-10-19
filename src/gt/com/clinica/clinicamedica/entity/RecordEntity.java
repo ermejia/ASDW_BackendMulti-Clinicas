@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-package com.clinica.clinicamedica.entity;
-=======
 package gt.com.clinica.clinicamedica.entity;
->>>>>>> feature/AF-9-15_CompleteEntity
 
 import java.util.*;
 
@@ -37,8 +33,6 @@ public class RecordEntity {
      */
     private int idPatientRoom;
 
-<<<<<<< HEAD
-=======
     public int getIdRecord() {
         return idRecord;
     }
@@ -70,5 +64,4 @@ public class RecordEntity {
     public void setIdPatientRoom(int idPatientRoom) {
         this.idPatientRoom = idPatientRoom;
     }
->>>>>>> feature/AF-9-15_CompleteEntity
 }

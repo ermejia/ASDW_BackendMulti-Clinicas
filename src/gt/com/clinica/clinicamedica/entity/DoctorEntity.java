@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-package com.clinica.clinicamedica.entity;
-=======
 package gt.com.clinica.clinicamedica.entity;
->>>>>>> feature/AF-9-15_CompleteEntity
 
 import java.util.*;
 
@@ -32,8 +28,6 @@ public class DoctorEntity extends EmployeeEntity {
      */
     private String speciality;
 
-<<<<<<< HEAD
-=======
     public int getIdDoctor() {
         return idDoctor;
     }
@@ -57,5 +51,4 @@ public class DoctorEntity extends EmployeeEntity {
     public void setSpeciality(String speciality) {
         this.speciality = speciality;
     }
->>>>>>> feature/AF-9-15_CompleteEntity
 }
