@@ -3,6 +3,7 @@ package gt.com.clinica.clinicamedica.controller.room;
 import com.google.gson.Gson;
 import gt.com.clinica.clinicamedica.dao.RoomDao;
 import gt.com.clinica.clinicamedica.entity.RoomEntity;
+import gt.com.clinica.clinicamedica.service.RoomService;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -27,21 +28,12 @@ public class RoomController extends HttpServlet {
      * @throws IOException
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RoomEntity room = new RoomEntity();
-        RoomDao daor = new RoomDao();
-        StringBuilder sb = new StringBuilder();
+        RoomService room = new RoomService();
         BufferedReader br = request.getReader();
-        String str = null;
-        while ((str = br.readLine()) != null) {
-            sb.append(str);
-            System.out.println(str);
-        }
-        JSONObject jObj = new JSONObject(sb.toString());
-        room.setState((jObj.getString("state")));
-        room.setNuBed(jObj.getInt("nuBed"));
-        room.setDescription(jObj.getString("description"));
         try (PrintWriter out = response.getWriter()) {
-            daor.addRoom(room);
+            if(room.addData(br)!=1){
+                out.println("Error");
+            }
         }
     }
 
@@ -53,16 +45,10 @@ public class RoomController extends HttpServlet {
      * @throws IOException
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RoomDao daoe = new RoomDao();
-        List<RoomEntity> listEm = daoe.listAllRooms();
-        List<String> json = new LinkedList<>();
-        Gson gson = new Gson();
+        RoomService daoe = new RoomService();
+        List<String> json =daoe.listData();
         try (PrintWriter out = response.getWriter()) {
-            if (listEm != null) {
-                for (RoomEntity emp : listEm) {
-                    json.add(gson.toJson(emp));
-                }
-                System.out.println(json);
+            if (json != null) {
                 out.println(json);
             } else {
                 out.println("error");

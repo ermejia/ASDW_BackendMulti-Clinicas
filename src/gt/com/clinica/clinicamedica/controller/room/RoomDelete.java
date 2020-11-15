@@ -6,6 +6,7 @@ import gt.com.clinica.clinicamedica.dao.RoomDao;
 import gt.com.clinica.clinicamedica.entity.DoctorEntity;
 import gt.com.clinica.clinicamedica.entity.MedicineEntity;
 import gt.com.clinica.clinicamedica.entity.RoomEntity;
+import gt.com.clinica.clinicamedica.service.RoomService;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -27,37 +28,16 @@ public class RoomDelete extends HttpServlet {
      * @throws IOException
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RoomEntity room = new RoomEntity();
-        RoomDao dao = new RoomDao();
-        StringBuilder sb = new StringBuilder();
+        RoomService room = new RoomService();
         BufferedReader br = request.getReader();
-        String str = null;
-        while ((str = br.readLine()) != null) {
-            String a = str.substring(1, str.length() -1);
-            sb.append(a);
-            System.out.println(a);
-        }
-        JSONObject jObj = new JSONObject(sb.toString());
-        room.setIdRoom(jObj.getInt("idRoom"));
-        int a = dao.deleteRoom(room.getIdRoom());
         try (PrintWriter out = response.getWriter()) {
-            if(a!=0){
-            }else{
+            if(room.deleteData(br)!=1){
                 out.println("[error]");
             }
         }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RoomEntity room = new RoomEntity();
-        RoomDao dao = new RoomDao();
-        room.setIdRoom(Integer.parseInt(request.getParameter("idRoom")));
-        int a = dao.deleteRoom(room.getIdRoom());
-        try (PrintWriter out = response.getWriter()) {
-            if(a!=0){
-            }else{
-                out.println("[error]");
-            }
-        }
+
     }
 }
