@@ -9,6 +9,7 @@ import gt.com.clinica.clinicamedica.entity.AppointmentEntity;
 import gt.com.clinica.clinicamedica.entity.ClinicEntity;
 import gt.com.clinica.clinicamedica.entity.DoctorEntity;
 import gt.com.clinica.clinicamedica.entity.RoomEntity;
+import gt.com.clinica.clinicamedica.service.DoctorService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,15 +35,10 @@ public class DoctorController extends HttpServlet {
      * @throws IOException
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        DoctorDao daod = new DoctorDao();
-        List<DoctorEntity> listDocs = daod.listAllDoctors();
-        List<String> json = new LinkedList<>();
-        Gson gson = new Gson();
+        DoctorService daod = new DoctorService();
+        List<String> json = daod.listData();
         try (PrintWriter out = response.getWriter()) {
-            if (listDocs != null) {
-                for (DoctorEntity doc : listDocs) {
-                    json.add(gson.toJson(doc));
-                }
+            if (json != null) {
                 out.println(json);
             } else {
                 out.println("error");

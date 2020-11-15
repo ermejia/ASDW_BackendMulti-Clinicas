@@ -5,6 +5,7 @@ import gt.com.clinica.clinicamedica.dao.ClinicDao;
 import gt.com.clinica.clinicamedica.dao.DoctorDao;
 import gt.com.clinica.clinicamedica.entity.ClinicEntity;
 import gt.com.clinica.clinicamedica.entity.DoctorEntity;
+import gt.com.clinica.clinicamedica.service.DoctorService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,17 +31,10 @@ public class DoctorGetId extends HttpServlet {
      * @throws IOException
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<String> json = new LinkedList<>();
-        Gson gson = new Gson();
-        DoctorEntity doctor = new DoctorEntity();
-        DoctorDao dao = new DoctorDao();
-        System.out.println(request.getParameter("id"));
-        doctor.setIdDoctor(Integer.parseInt(request.getParameter("id")));
-        DoctorEntity clinic = dao.getById(doctor.getIdDoctor());
+        DoctorService doctor = new DoctorService();
+        List<String> json = doctor.getDatabyId(Integer.parseInt(request.getParameter("id")));
         try (PrintWriter out = response.getWriter()) {
-            if (clinic != null) {
-                json.add(gson.toJson(clinic));
-                System.out.println(json);
+            if ( json!= null) {
                 out.println(json);
             } else {
                 out.println("error");
