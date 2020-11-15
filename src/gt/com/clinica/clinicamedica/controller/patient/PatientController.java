@@ -8,6 +8,7 @@ import gt.com.clinica.clinicamedica.entity.ClinicEntity;
 import gt.com.clinica.clinicamedica.entity.EmployeeEntity;
 import gt.com.clinica.clinicamedica.entity.PatientRoomEntity;
 import gt.com.clinica.clinicamedica.entity.PersonEntity;
+import gt.com.clinica.clinicamedica.service.PatientService;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -34,27 +35,12 @@ public class PatientController extends HttpServlet {
      * @throws IOException
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PersonEntity pat = new PersonEntity();
-        PatientDao dao = new PatientDao();
-        StringBuilder sb = new StringBuilder();
+        PatientService pat = new PatientService();
         BufferedReader br = request.getReader();
-        String str = null;
-        while ((str = br.readLine()) != null) {
-            sb.append(str);
-            System.out.println(str);
-        }
-        JSONObject jObj = new JSONObject(sb.toString());
-        pat.setDpi((jObj.getInt("dpi")));
-        pat.setName(jObj.getString("name"));
-        pat.setSurname(jObj.getString("surname"));
-        pat.setAddress(jObj.getString("address"));
-        pat.setPhone(jObj.getInt("phone"));
-        pat.setBirthdate(jObj.getString("birthdate"));
-        pat.setContactphone(jObj.getInt("contactphone"));
-        pat.setGender(jObj.getString("gender"));
-
         try (PrintWriter out = response.getWriter()) {
-            dao.addepatient(pat);
+            if(pat.addData(br)!=1){
+                out.println("Error");
+            }
         }
     }
 
@@ -66,15 +52,10 @@ public class PatientController extends HttpServlet {
      * @throws IOException
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PatientDao daopr = new PatientDao();
-        List<PersonEntity> listPatie = daopr.listAll();
-        List<String> json = new LinkedList<>();
-        Gson gson = new Gson();
+        PatientService daopr = new PatientService();
+        List<String> json = daopr.listData();
         try (PrintWriter out = response.getWriter()) {
-            if (listPatie != null) {
-                for (PersonEntity patie : listPatie) {
-                    json.add(gson.toJson(patie));
-                }
+            if (json != null) {
                 out.println(json);
             } else {
                 out.println("error");

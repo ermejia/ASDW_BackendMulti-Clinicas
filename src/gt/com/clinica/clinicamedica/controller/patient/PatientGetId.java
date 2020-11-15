@@ -5,6 +5,7 @@ import gt.com.clinica.clinicamedica.dao.DoctorDao;
 import gt.com.clinica.clinicamedica.dao.PatientDao;
 import gt.com.clinica.clinicamedica.entity.DoctorEntity;
 import gt.com.clinica.clinicamedica.entity.PersonEntity;
+import gt.com.clinica.clinicamedica.service.PatientService;
 import org.omg.CORBA.PERSIST_STORE;
 
 import javax.servlet.ServletException;
@@ -31,17 +32,10 @@ public class PatientGetId extends HttpServlet {
      * @throws IOException
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<String> json = new LinkedList<>();
-        Gson gson = new Gson();
-        PersonEntity pat = new PersonEntity();
-        PatientDao dao = new PatientDao();
-        System.out.println(request.getParameter("id"));
-        pat.setDpi(Integer.parseInt(request.getParameter("id")));
-        PersonEntity patient = dao.getById(pat.getDpi());
+        PatientService pat = new PatientService();
+        List<String> json = pat.getDatabyId(Integer.parseInt(request.getParameter("id")));
         try (PrintWriter out = response.getWriter()) {
-            if (patient != null) {
-                json.add(gson.toJson(patient));
-                System.out.println(json);
+            if (json != null) {
                 out.println(json);
             } else {
                 out.println("error");

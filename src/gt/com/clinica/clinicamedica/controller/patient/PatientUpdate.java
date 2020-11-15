@@ -4,6 +4,7 @@ import gt.com.clinica.clinicamedica.dao.DoctorDao;
 import gt.com.clinica.clinicamedica.dao.PatientDao;
 import gt.com.clinica.clinicamedica.entity.DoctorEntity;
 import gt.com.clinica.clinicamedica.entity.PersonEntity;
+import gt.com.clinica.clinicamedica.service.PatientService;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -25,30 +26,12 @@ public class PatientUpdate extends HttpServlet {
      * @throws IOException
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PersonEntity pat = new PersonEntity();
-        PatientDao dao = new PatientDao();
-        StringBuilder sb = new StringBuilder();
+        PatientService pat = new PatientService();
         BufferedReader br = request.getReader();
-        String str = null;
-        while ((str = br.readLine()) != null) {
-            String a = str.substring(1, str.length() -1);
-            sb.append(a);
-            System.out.println(a);
-        }
-        JSONObject jObj = new JSONObject(sb.toString());
-
-        pat.setIdPerson(Integer.parseInt(jObj.getString("idPerson")));
-        pat.setAddress(((jObj.getString("address"))));
-        pat.setBirthdate((jObj.getString("birthdate")));
-        pat.setContactphone((jObj.getInt("contactphone")));
-        pat.setDpi((jObj.getInt("dpi")));
-        pat.setName(((jObj.getString("name"))));
-        pat.setPhone(Integer.parseInt((jObj.getString("phone"))));
-        pat.setSurname(((jObj.getString("surname"))));
-
-
         try (PrintWriter out = response.getWriter()) {
-            dao.updatepatient(pat);
+            if(pat.updateData(br)!=1){
+                out.println("error");
+            }
         }
     }
 
