@@ -6,6 +6,7 @@ import gt.com.clinica.clinicamedica.dao.RecordDao;
 import gt.com.clinica.clinicamedica.entity.DoctorEntity;
 import gt.com.clinica.clinicamedica.entity.MedicineEntity;
 import gt.com.clinica.clinicamedica.entity.RecordEntity;
+import gt.com.clinica.clinicamedica.service.RecordService;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -27,23 +28,11 @@ public class RecordDelete extends HttpServlet {
      * @throws IOException
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RecordEntity rec = new RecordEntity();
-        RecordDao dao = new RecordDao();
-        StringBuilder sb = new StringBuilder();
+        RecordService rec = new RecordService();
         BufferedReader br = request.getReader();
-        String str = null;
-        while ((str = br.readLine()) != null) {
-            String a = str.substring(1, str.length() -1);
-            sb.append(a);
-            System.out.println(a);
-        }
-        JSONObject jObj = new JSONObject(sb.toString());
-        rec.setIdRecord(jObj.getInt("idRecord"));
-        int a = dao.deleteRecord(rec.getIdRecord());
         try (PrintWriter out = response.getWriter()) {
-            if(a!=0){
-            }else{
-                out.println("[error]");
+            if(rec.deleteData(br)!=1){
+                out.println("error");
             }
         }
     }

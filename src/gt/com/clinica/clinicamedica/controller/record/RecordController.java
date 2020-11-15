@@ -3,6 +3,7 @@ package gt.com.clinica.clinicamedica.controller.record;
 import com.google.gson.Gson;
 import gt.com.clinica.clinicamedica.dao.RecordDao;
 import gt.com.clinica.clinicamedica.entity.RecordEntity;
+import gt.com.clinica.clinicamedica.service.RecordService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,17 +27,10 @@ public class RecordController extends HttpServlet {
      * @throws IOException
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RecordDao daor = new RecordDao();
-        System.out.println(request.getParameter("dpi"));
-        List<RecordEntity> listRecords = new LinkedList<>();
-        listRecords.add(daor.getRecordbyDpi(Integer.parseInt(request.getParameter("dpi"))));
-        List<String> json = new LinkedList<>();
-        Gson gson = new Gson();
+        RecordService daor = new RecordService();
+        List<String> json =daor.getDatabyId(Integer.parseInt(request.getParameter("dpi")));
         try (PrintWriter out = response.getWriter()) {
-            if (listRecords != null) {
-                for (RecordEntity rec : listRecords) {
-                    json.add(gson.toJson(rec));
-                }
+            if (json != null) {
                 out.println(json);
             } else {
                 out.println("error");
