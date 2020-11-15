@@ -7,6 +7,7 @@ import gt.com.clinica.clinicamedica.dao.MedicineDao;
 import gt.com.clinica.clinicamedica.entity.ClinicEntity;
 import gt.com.clinica.clinicamedica.entity.EmployeeEntity;
 import gt.com.clinica.clinicamedica.entity.MedicineEntity;
+import gt.com.clinica.clinicamedica.service.MedicineService;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -33,24 +34,12 @@ public class MedicineController extends HttpServlet {
      * @throws IOException
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        MedicineEntity employee = new MedicineEntity();
-        MedicineDao dao = new MedicineDao();
-        StringBuilder sb = new StringBuilder();
+        MedicineService employee = new MedicineService();
         BufferedReader br = request.getReader();
-        String str = null;
-        while ((str = br.readLine()) != null) {
-            sb.append(str);
-            System.out.println(str);
-        }
-        JSONObject jObj = new JSONObject(sb.toString());
-        employee.setName(jObj.getString("name"));
-        employee.setAdminway(jObj.getString("adminway"));
-        employee.setLab(jObj.getString("lab"));
-        employee.setDescription(jObj.getString("description"));
-        employee.setExpirationdate(jObj.getString("expirationdate"));
-        employee.setLots((jObj.getInt("lots")));
         try (PrintWriter out = response.getWriter()) {
-            dao.addmedicine(employee);
+            if(employee.addData(br)!=1){
+                out.println("Ha ocurrido un error el ingrear los datos");
+            }
         }
     }
 
@@ -62,16 +51,10 @@ public class MedicineController extends HttpServlet {
      * @throws IOException
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        MedicineDao daom = new MedicineDao();
-        List<MedicineEntity> listMedi = daom.listAll();
-        List<String> json = new LinkedList<>();
-        Gson gson = new Gson();
+        MedicineService daom = new MedicineService();
+        List<String> json = daom.listData();
         try (PrintWriter out = response.getWriter()) {
-            if (listMedi != null) {
-                for (MedicineEntity medi : listMedi) {
-                    json.add(gson.toJson(medi));
-                }
-                System.out.println(json);
+            if (json != null) {
                 out.println(json);
             } else {
                 out.println("error");
