@@ -9,6 +9,7 @@ import gt.com.clinica.clinicamedica.entity.ClinicEntity;
 import gt.com.clinica.clinicamedica.entity.PersonEntity;
 import gt.com.clinica.clinicamedica.entity.RoomEntity;
 import gt.com.clinica.clinicamedica.entity.StallEntity;
+import gt.com.clinica.clinicamedica.service.StallService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,15 +34,10 @@ public class StallController extends HttpServlet {
      * @throws IOException
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        StallDao daos = new StallDao();
-        List<StallEntity> listStall = daos.listAllStalls();
-        List<String> json = new LinkedList<>();
-        Gson gson = new Gson();
+        StallService daos = new StallService();
+        List<String> json = daos.listData();
         try (PrintWriter out = response.getWriter()) {
-            if (listStall != null) {
-                for (StallEntity stal : listStall) {
-                    json.add(gson.toJson(stal));
-                }
+            if (json != null) {
                 out.println(json);
             } else {
                 out.println("error");
