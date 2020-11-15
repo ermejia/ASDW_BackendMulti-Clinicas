@@ -3,6 +3,7 @@ package gt.com.clinica.clinicamedica.controller.patientroom;
 import com.google.gson.Gson;
 import gt.com.clinica.clinicamedica.dao.*;
 import gt.com.clinica.clinicamedica.entity.*;
+import gt.com.clinica.clinicamedica.service.PatientRoomService;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -30,21 +31,12 @@ public class PatientRoomController extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        PatientRoomEntity ptr = new PatientRoomEntity();
-        PatientRoomDao dao = new PatientRoomDao();
-        StringBuilder sb = new StringBuilder();
+        PatientRoomService ptr = new PatientRoomService();
         BufferedReader br = request.getReader();
-        String str = null;
-        while ((str = br.readLine()) != null) {
-            sb.append(str);
-            System.out.println(str);
-        }
-        JSONObject jObj = new JSONObject(sb.toString());
-        ptr.setDpi(jObj.getInt("dpi"));
-        ptr.setIdRoom(jObj.getInt("idRoom"));
-        ptr.setDateIn(Date.valueOf(jObj.getString("dateIn")));
         try (PrintWriter out = response.getWriter()) {
-            dao.addPtr(ptr);
+           if(ptr.addData(br)!=1){
+               out.println("error");
+           }
         }
 
     }
@@ -57,16 +49,10 @@ public class PatientRoomController extends HttpServlet {
      * @throws IOException
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PatientRoomDao daopr = new PatientRoomDao();
-        List<PatientRoomEntity> listPre = daopr.listAllRoomsP();
-        List<String> json = new LinkedList<>();
-        Gson gson = new Gson();
+        PatientRoomService daopr = new PatientRoomService();
+        List<String> json = daopr.listData();
         try (PrintWriter out = response.getWriter()) {
-            if (listPre != null) {
-                for (PatientRoomEntity pre : listPre) {
-                    json.add(gson.toJson(pre));
-                }
-                System.out.println(json);
+            if (json != null) {
                 out.println(json);
             } else {
                 out.println("error");

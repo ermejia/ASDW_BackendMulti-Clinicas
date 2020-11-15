@@ -5,6 +5,7 @@ import gt.com.clinica.clinicamedica.dao.DoctorDao;
 import gt.com.clinica.clinicamedica.dao.PatientRoomDao;
 import gt.com.clinica.clinicamedica.entity.DoctorEntity;
 import gt.com.clinica.clinicamedica.entity.PatientRoomEntity;
+import gt.com.clinica.clinicamedica.service.PatientRoomService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,17 +31,10 @@ public class PatientRGetId extends HttpServlet {
      * @throws IOException
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<String> json = new LinkedList<>();
-        Gson gson = new Gson();
-        PatientRoomEntity pr = new PatientRoomEntity();
-        PatientRoomDao dao = new PatientRoomDao();
-        System.out.println(request.getParameter("id"));
-        pr.setIdPatientRoom(Integer.parseInt(request.getParameter("id")));
-        PatientRoomEntity pr1 = dao.getById(pr.getIdPatientRoom());
+        PatientRoomService pr = new PatientRoomService();
+        List<String> json =pr.getDatabyId(Integer.parseInt(request.getParameter("id")));
         try (PrintWriter out = response.getWriter()) {
-            if (pr1 != null) {
-                json.add(gson.toJson(pr1));
-                System.out.println(json);
+            if (json != null) {
                 out.println(json);
             } else {
                 out.println("error");
