@@ -5,6 +5,7 @@ import gt.com.clinica.clinicamedica.dao.DoctorDao;
 import gt.com.clinica.clinicamedica.dao.StallDao;
 import gt.com.clinica.clinicamedica.entity.DoctorEntity;
 import gt.com.clinica.clinicamedica.entity.StallEntity;
+import gt.com.clinica.clinicamedica.service.StallService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,17 +31,10 @@ public class StallGetId extends HttpServlet {
      * @throws IOException
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<String> json = new LinkedList<>();
-        Gson gson = new Gson();
-        StallEntity stall = new StallEntity();
-        StallDao dao = new StallDao();
-        System.out.println(request.getParameter("id"));
-        stall.setIdStall(Integer.parseInt(request.getParameter("id")));
-        StallEntity stall1 = dao.getById(stall.getIdStall());
+        StallService stall = new StallService();
+        List<String> json = stall.getDatabyId(Integer.parseInt(request.getParameter("id")));
         try (PrintWriter out = response.getWriter()) {
-            if (stall1 != null) {
-                json.add(gson.toJson(stall1));
-                System.out.println(json);
+            if (json != null) {
                 out.println(json);
             } else {
                 out.println("error");
