@@ -4,6 +4,7 @@ import gt.com.clinica.clinicamedica.dao.DoctorDao;
 import gt.com.clinica.clinicamedica.dao.MedicineDao;
 import gt.com.clinica.clinicamedica.entity.DoctorEntity;
 import gt.com.clinica.clinicamedica.entity.MedicineEntity;
+import gt.com.clinica.clinicamedica.service.MedicineService;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -25,28 +26,12 @@ public class MedicineUpdate extends HttpServlet {
      * @throws IOException
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        MedicineEntity med = new MedicineEntity();
-        MedicineDao dao = new MedicineDao();
-        StringBuilder sb = new StringBuilder();
+        MedicineService med = new MedicineService();
         BufferedReader br = request.getReader();
-        String str = null;
-        while ((str = br.readLine()) != null) {
-            String a = str.substring(1, str.length() -1);
-            sb.append(a);
-            System.out.println(a);
-        }
-        JSONObject jObj = new JSONObject(sb.toString());
-
-        med.setIdMedicine(jObj.getInt("idMedicine"));
-        med.setDescription(((jObj.getString("description"))));
-        med.setAdminway((jObj.getString("adminway")));
-        med.setLab((jObj.getString("lab")));
-        med.setName((jObj.getString("name")));
-        med.setLots(jObj.getInt("lots"));
-        med.setExpirationdate(((jObj.getString("expirationdate"))));
-
         try (PrintWriter out = response.getWriter()) {
-            dao.updatemedicine(med);
+            if(med.updateData(br)!=1){
+                out.println("Error");
+            }
         }
     }
 

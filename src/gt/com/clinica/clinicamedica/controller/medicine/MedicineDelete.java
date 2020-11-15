@@ -6,6 +6,7 @@ import gt.com.clinica.clinicamedica.dao.MedicineDao;
 import gt.com.clinica.clinicamedica.entity.DoctorEntity;
 import gt.com.clinica.clinicamedica.entity.EmployeeEntity;
 import gt.com.clinica.clinicamedica.entity.MedicineEntity;
+import gt.com.clinica.clinicamedica.service.MedicineService;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -27,22 +28,10 @@ public class MedicineDelete extends HttpServlet {
      * @throws IOException
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        MedicineEntity med = new MedicineEntity();
-        MedicineDao dao = new MedicineDao();
-        StringBuilder sb = new StringBuilder();
+        MedicineService med = new MedicineService();
         BufferedReader br = request.getReader();
-        String str = null;
-        while ((str = br.readLine()) != null) {
-            String a = str.substring(1, str.length() -1);
-            sb.append(a);
-            System.out.println(a);
-        }
-        JSONObject jObj = new JSONObject(sb.toString());
-        med.setIdMedicine(jObj.getInt("idMedicine"));
-        int a = dao.deletemedicine(med.getIdMedicine());
         try (PrintWriter out = response.getWriter()) {
-            if(a!=0){
-            }else{
+            if(med.deleteData(br)!=1){
                 out.println("[error]");
             }
         }
