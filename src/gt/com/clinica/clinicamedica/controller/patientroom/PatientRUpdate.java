@@ -5,6 +5,7 @@ import gt.com.clinica.clinicamedica.dao.PatientDao;
 import gt.com.clinica.clinicamedica.dao.PatientRoomDao;
 import gt.com.clinica.clinicamedica.entity.DoctorEntity;
 import gt.com.clinica.clinicamedica.entity.PatientRoomEntity;
+import gt.com.clinica.clinicamedica.service.PatientRoomService;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -27,26 +28,9 @@ public class PatientRUpdate extends HttpServlet {
      * @throws IOException
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PatientRoomEntity pr = new PatientRoomEntity();
-        PatientRoomDao dao = new PatientRoomDao();
-        StringBuilder sb = new StringBuilder();
+        PatientRoomService pr = new PatientRoomService();
         BufferedReader br = request.getReader();
-        String str = null;
-        while ((str = br.readLine()) != null) {
-            String a = str.substring(1, str.length() -1);
-            sb.append(a);
-            System.out.println(a);
-        }
-        JSONObject jObj = new JSONObject(sb.toString());
-
-        pr.setDateIn(Date.valueOf((jObj.getString("FechaIngreso"))));
-        pr.setDateOut(Date.valueOf(((jObj.getString("FechaSalida")))));
-        pr.setDpi((jObj.getInt("DPI")));
-        pr.setIdPatientRoom((jObj.getInt("IdPacienteHabitacion")));
-        pr.setIdRoom((jObj.getInt("IdHabitacion")));
-
-
-        try (PrintWriter out = response.getWriter()) {
+          try (PrintWriter out = response.getWriter()) {
             //dao.(pr);
         }
     }
